@@ -12,8 +12,8 @@ public class RedSparkNW  {
     public static void main(String[] args) throws LoginException, InterruptedException {
         //args[0]) = TOKEN
         jda = JDABuilder.createDefault(args[0]).build().awaitReady();
-        jda.addEventListener(new MsgCommands());
-        jda.addEventListener(new VCManager("Temp VC", "Create VC"));
+        jda.addEventListener(new MsgCommands("bot"));
+        jda.addEventListener(new VCManager("Temp VC", "Create VC", "Voice"));
 
         System.out.println("Bot is ready!");
 
