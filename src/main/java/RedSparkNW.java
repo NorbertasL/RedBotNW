@@ -11,11 +11,15 @@ public class RedSparkNW  {
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        final Logger log = LoggerFactory.getLogger(RedSparkNW.class);
-        //args[0]) = TOKEN
-        jda = JDABuilder.createDefault(args[0]).build().awaitReady();
-        jda.addEventListener(new MsgCommandManager("bot"));
-        jda.addEventListener(new VCManager("Temp VC", "Create VC", "Voice"));
+        String token;
+        if(args.length >= 1 && args[0] != null){
+            token = args[0];
+        }else {
+            token = System.getenv("TOKEN");
+        }
+        jda = JDABuilder.createDefault(token).build().awaitReady();
+        jda.addEventListener(new MsgCommandManager());
+        jda.addEventListener(new VCManager());
         System.out.println("Bot Ready!");
     }
 
