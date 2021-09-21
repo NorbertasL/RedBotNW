@@ -1,10 +1,12 @@
+package managers;
+
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 
-public class MsgCommands extends ListenerAdapter {
+public class MsgCommandManager extends ListenerAdapter {
     private String botChannelName;
-    public MsgCommands(String botChannelName){
+    public MsgCommandManager(String botChannelName){
         this.botChannelName = botChannelName;
     }
     @Override
