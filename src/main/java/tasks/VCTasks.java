@@ -22,7 +22,9 @@ public class VCTasks {
                 && vc.getName().equalsIgnoreCase(variables.getPrivateChannelName())){
             System.out.println("Making new private voice");
             String userName = event.getMember().getNickname()== null ? event.getMember().getUser().getName() : event.getMember().getNickname();
-            event.getGuild().createVoiceChannel(userName.endsWith("s")?userName+"'": userName+"'s"+" Black Hole!", event.getChannelJoined().getParent()).queue();
+            String channelName = userName.endsWith("s")?userName+"' " : userName+"'s ";
+            channelName+="Black Hole!";
+            event.getGuild().createVoiceChannel(channelName, event.getChannelJoined().getParent()).queue();
             //Dynamic channel generator
         }else if(vc.getParent().getName().equalsIgnoreCase(variables.getDynamicVcCategoryName())){
             if(vc.getName().equalsIgnoreCase("AFK")) return;//Ignoring AFK channel
