@@ -1,1 +1,1 @@
-java $JAVA_OPTS -cp target/classes:target/dependency/* RedSparkNW
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* RedSparkNW
