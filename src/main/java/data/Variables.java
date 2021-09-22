@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Variables {
+    public static final String MASTER_RANK = "Merlin";
     private static List<Variables> variables = new ArrayList<>();
     private String guildID;
     public String getGuildID(){
