@@ -4,7 +4,7 @@ package data;
 
 public enum GlobalConstants {
     EVENT_CATEGORY("Events"),
-    PRIVATE_VC_CATEGORY("Temp VC"),
+    PRIVATE_VC_CATEGORY("Custom VC"),
     PRIVATE_VC_NAME("Create VC"),
     DYNAMIC_VC_CATEGORY("Voice"),
     BOT_CHANNEL_NAME("bot");
