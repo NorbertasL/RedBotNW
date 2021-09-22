@@ -26,7 +26,7 @@ public class MsgCommandManager extends ListenerAdapter {
             String command = msg.split(" ")[0].toLowerCase();
 
 
-            /**
+
             switch (command){
                 case "event":
                     System.out.println("Making New Event cms has been called");
