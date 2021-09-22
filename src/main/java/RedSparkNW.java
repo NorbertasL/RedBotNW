@@ -18,7 +18,7 @@ public class RedSparkNW  {
             token = System.getenv("TOKEN");
         }
         jda = JDABuilder.createDefault(token).build().awaitReady();
-        jda.addEventListener(new MsgCommandManager());
+        //jda.addEventListener(new MsgCommandManager()); //Commands turned off for now
         jda.addEventListener(new VCManager());
         System.out.println("Bot Ready!");
     }
