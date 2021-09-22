@@ -11,7 +11,7 @@ public class EventTasks {
     private static String role = "Event Manager";
     public static void MakeNewEvent(Member caller, TextChannel channel, String commandInfo){
         if(!Helper.hasRank(caller,role)){
-            TCTasks.sendMessage(channel, "Sorry, you need \"{role}\" role to make new events");
+            TCTasks.sendMessage(channel, String.format("Sorry, you need \"%s\" role to make new events", role));
             return;
         }
         Guild guild = channel.getGuild();
