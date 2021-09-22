@@ -4,6 +4,7 @@ import data.Variables;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 
 import java.nio.channels.Channel;
 
@@ -14,9 +15,11 @@ public class EventTasks {
             TCTasks.sendMessage(channel, String.format("Sorry, you need \"%s\" role to make new events", role));
             return;
         }
+        String [] cmds = commandInfo.split("[|]");
+        System.out.println(cmds[0]);
         Guild guild = channel.getGuild();
         Variables variables = Variables.getVariables(guild);
-        guild.createTextChannel("TEST", guild.getCategories()
+        guild.createTextChannel(cmds[0], guild.getCategories()
                 .stream()
                 .filter(x -> x.getName().equalsIgnoreCase(variables.getEventCategoryName()))
                 .findFirst().get()).queue();
