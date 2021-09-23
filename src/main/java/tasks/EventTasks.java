@@ -16,9 +16,10 @@ public class EventTasks {
             return;
         }
         String [] cmds = commandInfo.split("[|]");
-        System.out.println(cmds[0]);
+        //System.out.println(cmds[0]);
         Guild guild = channel.getGuild();
         Variables variables = Variables.getVariables(guild);
+        variables.addEvent(caller, cmds);
         guild.createTextChannel(cmds[0], guild.getCategories()
                 .stream()
                 .filter(x -> x.getName().equalsIgnoreCase(variables.getEventCategoryName()))

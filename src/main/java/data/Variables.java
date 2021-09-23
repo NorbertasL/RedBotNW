@@ -1,8 +1,10 @@
 package data;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Variables {
@@ -48,4 +50,20 @@ public class Variables {
     public String getEventCategoryName() {
         return GlobalConstants.EVENT_CATEGORY.getName();
     }
+
+    private List<Event> eventList = new ArrayList<>();
+    public void addEvent(Member caller, String[] cmds) {
+            eventList.add(new Event(caller, cmds));
+    }
+    public Event getEvent(String name){
+        for (int i = 0; i < eventList.size(); i++){
+            if(eventList.get(i).getName().equalsIgnoreCase(name)){
+                Event event = eventList.get(i);
+                eventList.remove(i);
+                return event;
+            }
+        }
+        return null;
+    }
+
 }
