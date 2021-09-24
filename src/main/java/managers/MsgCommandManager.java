@@ -31,7 +31,7 @@ public class MsgCommandManager extends ListenerAdapter {
             switch (command) {
                 case "event":
                     System.out.println("Making New Event cms has been called");
-                    EventTasks.MakeNewEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
+                    EventTasks.makeNewEvent(event.getMessage(), msg.substring(command.length()));
                     return;
 
                 default:
@@ -48,11 +48,15 @@ public class MsgCommandManager extends ListenerAdapter {
             switch (command) {
                 case "event":
                     System.out.println("Making New Event cms has been called");
-                    EventTasks.MakeNewEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
+                    EventTasks.makeNewEvent(event.getMessage(), msg.substring(command.length()));
                     return;
                 case "close":
                     System.out.println("Event close command has been called");
-                    EventTasks.CloseEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
+                    EventTasks.closeEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
+                    return;
+                case "delete":
+                    System.out.println("Event delete command has been called");
+                    EventTasks.deleteEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
                     return;
                 default:
                     System.out.println("Unknown command:" + command);

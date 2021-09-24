@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 public class Variables {
     public static final String MASTER_RANK = "Merlin";
@@ -52,18 +52,25 @@ public class Variables {
     }
 
     private List<Event> eventList = new ArrayList<>();
-    public void addEvent(Member caller, String[] cmds) {
-            eventList.add(new Event(caller, cmds));
-    }
-    public Event getEvent(String name){
-        for (int i = 0; i < eventList.size(); i++){
-            if(eventList.get(i).getName().equalsIgnoreCase(name)){
-                Event event = eventList.get(i);
-                eventList.remove(i);
-                return event;
-            }
-        }
-        return null;
+    public void addEvent(String id,Member caller, String[] cmds) {
+            eventList.add(new Event(id, caller, cmds));
     }
 
+    public String getUniqueEventId() {
+        String id= "";
+        Random rand = new Random();
+        while (id.isEmpty()){
+            id = String.valueOf(rand.nextInt(100000));
+            System.out.println("Event id is:"+id);
+            for (Event e: eventList){
+                if(id.equalsIgnoreCase(e.getId())){
+                    System.out.println("Generates same id 0_0, what bad luck!");
+                    id = "";
+                    continue;
+                }
+            }
+        }
+        System.out.println("Returning event id:"+id);
+        return id;
+    }
 }
