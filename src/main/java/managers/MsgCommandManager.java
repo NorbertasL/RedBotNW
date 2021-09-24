@@ -1,15 +1,11 @@
 package managers;
 
-import commands.DeleteEvent;
-import commands.NewEvent;
-import data.Variables;
+import commands.DeleteEventCommand;
+import commands.NewEventCommand;
 import interfaces.Command;
 import interfaces.CommandErrors;
-import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import tasks.EventTasks;
-import tasks.Helper;
 import tasks.TCTasks;
 
 import java.util.ArrayList;
@@ -23,8 +19,8 @@ public class MsgCommandManager extends ListenerAdapter {
     public MsgCommandManager(){
         super();
         //Add in all commands
-        commands.add(new NewEvent());
-        commands.add(new DeleteEvent());
+        commands.add(new NewEventCommand());
+        commands.add(new DeleteEventCommand());
 
     }
     @Override
