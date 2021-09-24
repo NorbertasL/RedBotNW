@@ -1,5 +1,6 @@
 package tasks;
 
+import data.Event;
 import data.GlobalConstants;
 import data.Variables;
 import net.dv8tion.jda.api.entities.Guild;
@@ -39,5 +40,15 @@ public class EventTasks {
         channel.delete().queue();
 
 
+    }
+
+    public static void createEventBody(Event storedEvent, TextChannel channel) {
+        String [] cmd = storedEvent.getCmds();
+        if(cmd == null || cmd.length < 1 || cmd[0].isBlank()){
+            TCTasks.sendMessage(channel, "Well you fucked something up.Type !eventhelp in this channel");
+            return;
+        }
+
+        channel.getManager().setName(cmd[0]).queue();
     }
 }
