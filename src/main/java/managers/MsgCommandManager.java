@@ -1,17 +1,34 @@
 package managers;
 
+import commands.DeleteEvent;
+import commands.NewEvent;
 import data.Variables;
+import interfaces.Command;
+import interfaces.CommandErrors;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import tasks.EventTasks;
+import tasks.Helper;
 import tasks.TCTasks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MsgCommandManager extends ListenerAdapter {
+
+    List<Command> commands = new ArrayList<>();
+
+    public MsgCommandManager(){
+        super();
+        //Add in all commands
+        commands.add(new NewEvent());
+        commands.add(new DeleteEvent());
+
+    }
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-
         //Ignoring bots won input
         if (event.getAuthor().isBot()) {
             return;
@@ -21,49 +38,20 @@ public class MsgCommandManager extends ListenerAdapter {
             System.out.println("Not a command");
             return;
         }
-
-        Variables variables = Variables.getVariables(event.getGuild());
-        //Bot channel only commands
         msg = msg.substring(1);
         //Write all command as lowercase, no spaces allowed
-        String command = msg.split(" ")[0].toLowerCase();
-        if (event.getChannel().getName().equalsIgnoreCase(variables.getBotChannelName())) {
-            switch (command) {
-                case "event":
-                    System.out.println("Making New Event cms has been called");
-                    EventTasks.makeNewEvent(event.getMessage(), msg.substring(command.length()));
-                    return;
-
-                default:
-                    System.out.println("Unknown command:" + command);
-                    TCTasks.sendMessage(event.getTextChannel(), "Unknown command:" + command);
-
+        String callerCmd = msg.split(" ")[0].toLowerCase();
+        String vars = msg.substring(callerCmd.length());
+        for (Command command: commands){
+            if (command.getCommand().equalsIgnoreCase(callerCmd)){
+                CommandErrors response = command.runCommand(event.getMessage(), vars);
+                if(response != CommandErrors.INVALID_CHANNEL)
+                    TCTasks.sendMessage(event.getTextChannel(), response.toString());
+                return;
             }
         }
+        TCTasks.sendMessage(event.getTextChannel(), "Could not find command:"+callerCmd);
 
-
-        Category category = event.getTextChannel().getParent();
-        //Event channel commands
-        if (category != null && category.getName().equalsIgnoreCase(variables.getEventCategoryName())) {
-            switch (command) {
-                case "event":
-                    System.out.println("Making New Event cms has been called");
-                    EventTasks.makeNewEvent(event.getMessage(), msg.substring(command.length()));
-                    return;
-                case "close":
-                    System.out.println("Event close command has been called");
-                    EventTasks.closeEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
-                    return;
-                case "delete":
-                    System.out.println("Event delete command has been called");
-                    EventTasks.deleteEvent(event.getMember(), event.getTextChannel(), msg.substring(command.length()));
-                    return;
-                default:
-                    System.out.println("Unknown command:" + command);
-                    TCTasks.sendMessage(event.getTextChannel(), "Unknown command:" + command);
-
-            }
-        }
     }
 }
 
