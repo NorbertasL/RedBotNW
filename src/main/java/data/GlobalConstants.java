@@ -2,21 +2,13 @@ package data;
 
 //Using this until I set up a DB and make these more dynamic.
 
-public enum GlobalConstants {
-    EVENT_CATEGORY("Events"),
-    PRIVATE_VC_CATEGORY("Custom VC"),
-    PRIVATE_VC_NAME("Create VC"),
-    DYNAMIC_VC_CATEGORY("Voice"),
-    BOT_CHANNEL_NAME("bot");
-
-    private final String name;
-    GlobalConstants(String name){
-        this.name = name;
-    }
-    public String getName(){
-        return this.name;
-    }
-
-
+public class GlobalConstants {
+    public static final String[] EVENT_CATEGORY = new String[]{"Events"};
+    public static final String[] EVENT_MANAGER_ROLE = new String[]{"Event Manager"};
+    public static final String[] EVENT_LOCKED_CHANNELS = new String[]{"event-info", "event-archive"};
+    public static final String PRIVATE_VC_CATEGORY = "Custom VC";
+    public static final String PRIVATE_VC_NAME = "Create VC";
+    public static final String DYNAMIC_VC_CATEGORY = "Voice";
+    public static final String BOT_CHANNEL_NAME = "bot";
 
 }
