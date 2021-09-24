@@ -10,7 +10,6 @@ public abstract class Command {
             System.out.println("calling execute");
             execute(eventMessage, vars);
         }
-        System.out.println(response);
         return response;
     }
 
