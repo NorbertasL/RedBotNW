@@ -54,6 +54,16 @@ public class Variables {
     public void addEvent(String id,Member caller, String[] cmds) {
             eventList.add(new Event(id, caller, cmds));
     }
+    public Event getEventWithId(String id){
+        for (int i =0; i<eventList.size(); i++){
+            if(eventList.get(i).getId().equalsIgnoreCase(id)){
+                Event event = eventList.get(i);
+                eventList.remove(i);
+                return event;
+            }
+        }
+        return null;
+    }
     public String getUniqueEventId() {
         String id= "";
         Random rand = new Random();
