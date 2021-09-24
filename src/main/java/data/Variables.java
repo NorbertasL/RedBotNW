@@ -1,13 +1,17 @@
 package data;
 
+import commands.CommandKeys;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Variables {
+
+
+    HashMap<String, HashMap<CommandKeys, String[]>> commandVars = new HashMap<>();
+
+
     public static final String MASTER_RANK = "Merlin";
     private static List<Variables> variables = new ArrayList<>();
     private String guildID;
@@ -21,6 +25,7 @@ public class Variables {
         variables.add(this);
         System.out.println("New settings.Variables list is:");
         variables.stream().forEach(i -> System.out.println(i.getGuildID()));
+
     }
     public static Variables getVariables(Guild guild){
         for(Variables v: variables){
@@ -36,26 +41,19 @@ public class Variables {
 
 
     public String getPrivateVcCategoryName(){
-        return GlobalConstants.PRIVATE_VC_CATEGORY.getName();
+        return GlobalConstants.PRIVATE_VC_CATEGORY;
     }
     public String getPrivateChannelName(){
-        return GlobalConstants.PRIVATE_VC_NAME.getName();
+        return GlobalConstants.PRIVATE_VC_NAME;
     }
     public String getDynamicVcCategoryName() {
-        return GlobalConstants.DYNAMIC_VC_CATEGORY.getName();
-    }
-    public String getBotChannelName() {
-        return GlobalConstants.BOT_CHANNEL_NAME.getName();
-    }
-    public String getEventCategoryName() {
-        return GlobalConstants.EVENT_CATEGORY.getName();
+        return GlobalConstants.DYNAMIC_VC_CATEGORY;
     }
 
     private List<Event> eventList = new ArrayList<>();
     public void addEvent(String id,Member caller, String[] cmds) {
             eventList.add(new Event(id, caller, cmds));
     }
-
     public String getUniqueEventId() {
         String id= "";
         Random rand = new Random();
@@ -72,5 +70,22 @@ public class Variables {
         }
         System.out.println("Returning event id:"+id);
         return id;
+    }
+
+
+    public HashMap<CommandKeys, String[]> getCommandVarsFor(String command) {
+        if(commandVars.get(command.toLowerCase()) == null){
+            System.out.println("Generating null vars for command:"+ command);
+            commandVars.put(command.toLowerCase(), createDefaultVar());
+        }
+        return commandVars.get(command.toLowerCase());
+    }
+
+    private HashMap<CommandKeys, String[]> createDefaultVar() {
+        HashMap<CommandKeys, String[]> values = new HashMap<>();
+        for(CommandKeys key : CommandKeys.values()){
+            values.put(key, null);
+        }
+        return values;
     }
 }
