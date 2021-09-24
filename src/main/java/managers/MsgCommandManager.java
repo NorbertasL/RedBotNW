@@ -48,8 +48,12 @@ public class MsgCommandManager extends ListenerAdapter {
         for (Command command: commands){
             if (command.getCommand().equalsIgnoreCase(callerCmd)){
                 CommandErrors response = command.runCommand(event.getMessage(), vars);
-                if(response != CommandErrors.INVALID_CHANNEL)
-                    TCTasks.sendMessage(event.getTextChannel(), response.toString());
+                if(response == CommandErrors.OK){
+                    event.getMessage().addReaction("U+1F44D").queue();//Thumbs up
+                }else{
+                    event.getMessage().addReaction("U+1F44E").queue();//Thumbs down
+                    //event.getMessage().addReaction("U+2139").queue();//information
+                }
                 return;
             }
         }
