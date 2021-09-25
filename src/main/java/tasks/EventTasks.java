@@ -50,15 +50,36 @@ public class EventTasks {
             return;
         }
         channel.getManager().setName(cmd[0]).queue();
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setAuthor("RED");
-        eb.setColor(Color.CYAN);
-        eb.setTitle("BLABLA");
-        MessageEmbed messageEmbed = eb.build();
-        channel.sendMessageEmbeds(messageEmbed).queue();
-
-
 
 
     }
+    public static void generatePoll(String text, TextChannel channel) {
+        String [] cmd = text.split("\n");
+        System.out.println(text);
+        System.out.println(cmd.length);
+        for(String s : cmd){
+            channel.sendMessage("--------------\n"+s).queue();
+        }
+    }
 }
+/**
+ EmbedBuilder eb = new EmbedBuilder();
+ eb.setTitle("**GUILD NAME POLL**");
+ eb.setColor(Color.RED);
+ eb.addField("Event Closes","<t:1632664800:F>", true);
+ eb.addField("Event Host","Red_Spark", true);
+ eb.addBlankField(false);
+ eb.addField("**Event Info**","**Look here you filthy casuals this is how it will work:** " +
+ "\n1: You can thumb up all the names you like." +
+ "\n2: You can thumb down all the names you dislike." +
+ "\n3: :thumbup: = +1 and :thumbdown: = -1 to the name. " +
+ "\n4: Top 5 guild names with the highest score go to the finals." , false);
+ eb.addBlankField(false);
+ eb.addField("NOTE", "No typing in this channel. Also if I missed a name, TOO FUCKING BAD <_<.", false);
+
+ eb.setFooter("Don't make me hurt you 0_o");
+ eb.setImage("http://memecrunch.com/meme/C3U9V/dont-fuck-this-up-this-time/image.jpg");
+
+ MessageEmbed messageEmbed = eb.build();
+ channel.sendMessageEmbeds(messageEmbed).queue();
+ **/

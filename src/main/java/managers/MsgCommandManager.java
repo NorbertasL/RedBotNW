@@ -5,9 +5,8 @@ import commands.NewEventCommand;
 import data.Event;
 import data.GlobalConstants;
 import data.Variables;
-import interfaces.Command;
-import interfaces.CommandErrors;
-import net.dv8tion.jda.api.entities.Category;
+import commands.base.AbstractCommand;
+import commands.base.CommandErrors;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -21,13 +20,13 @@ import java.util.List;
 
 public class MsgCommandManager extends ListenerAdapter {
 
-    List<Command> commands = new ArrayList<>();
+    List<AbstractCommand> abstractCommands = new ArrayList<>();
 
     public MsgCommandManager(){
         super();
         //Add in all commands
-        commands.add(new NewEventCommand());
-        commands.add(new DeleteEventCommand());
+        abstractCommands.add(new NewEventCommand());
+        abstractCommands.add(new DeleteEventCommand());
 
     }
     @Override
@@ -45,9 +44,9 @@ public class MsgCommandManager extends ListenerAdapter {
         //Write all command as lowercase, no spaces allowed
         String callerCmd = msg.split(" ")[0].toLowerCase();
         String vars = msg.substring(callerCmd.length());
-        for (Command command: commands){
-            if (command.getCommand().equalsIgnoreCase(callerCmd)){
-                CommandErrors response = command.runCommand(event.getMessage(), vars);
+        for (AbstractCommand abstractCommand : abstractCommands){
+            if (abstractCommand.getCommand().equalsIgnoreCase(callerCmd)){
+                CommandErrors response = abstractCommand.runCommand(event.getMessage(), vars);
                 if(response == CommandErrors.OK){
                     event.getMessage().addReaction("U+1F44D").queue();//Thumbs up
                 }else{
@@ -56,6 +55,10 @@ public class MsgCommandManager extends ListenerAdapter {
                 }
                 return;
             }
+        }
+        if(callerCmd.equals("poll")){
+            EventTasks.generatePoll(msg.substring(4), event.getTextChannel());
+            return;
         }
         TCTasks.sendMessage(event.getTextChannel(), "Could not find command:"+callerCmd);
 
