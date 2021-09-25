@@ -1,6 +1,5 @@
 package data;
 
-import commands.CommandKeys;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 
@@ -9,7 +8,7 @@ import java.util.*;
 public class Variables {
 
 
-    HashMap<String, HashMap<CommandKeys, String[]>> commandVars = new HashMap<>();
+    //HashMap<String, HashMap<CommandKeys, String[]>> commandVars = new HashMap<>();
 
 
     public static final String MASTER_RANK = "Merlin";
@@ -82,7 +81,7 @@ public class Variables {
         return id;
     }
 
-
+    /**
     public HashMap<CommandKeys, String[]> getCommandVarsFor(String command) {
         if(commandVars.get(command.toLowerCase()) == null){
             System.out.println("Generating null vars for command:"+ command);
@@ -98,4 +97,5 @@ public class Variables {
         }
         return values;
     }
+     **/
 }
