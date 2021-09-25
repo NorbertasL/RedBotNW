@@ -1,4 +1,4 @@
-package interfaces;
+package commands.base;
 
 public enum CommandErrors {
     OK(),
