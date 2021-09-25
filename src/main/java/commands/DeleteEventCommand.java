@@ -2,22 +2,21 @@ package commands;
 
 import commands.base.Credentials;
 import data.GlobalConstants;
-import data.Variables;
 import commands.base.AbstractCommand;
-import commands.base.CommandErrors;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import tasks.EventTasks;
-import tasks.Helper;
-
-import java.util.HashMap;
 
 public class DeleteEventCommand extends AbstractCommand {
     private static String command = "delete";
     private static String [] defaultRoles= GlobalConstants.EVENT_MANAGER_ROLE;
     private static String[] defaultListenCategories = GlobalConstants.EVENT_CATEGORY;
     private static String[] defaultLockedChannels = GlobalConstants.EVENT_LOCKED_CHANNELS;
+
+    @Override
+    public CmdResponse getResponse(CommandErrors response) {
+        //TODO set up responses
+        return null;
+    }
 
     @Override
     protected void execute(Message eventMessage, String vars) {

@@ -2,11 +2,11 @@ package managers;
 
 import commands.DeleteEventCommand;
 import commands.NewEventCommand;
+import data.Emoji;
 import data.Event;
 import data.GlobalConstants;
 import data.Variables;
 import commands.base.AbstractCommand;
-import commands.base.CommandErrors;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -46,13 +46,31 @@ public class MsgCommandManager extends ListenerAdapter {
         String vars = msg.substring(callerCmd.length());
         for (AbstractCommand abstractCommand : abstractCommands){
             if (abstractCommand.getCommand().equalsIgnoreCase(callerCmd)){
-                CommandErrors response = abstractCommand.runCommand(event.getMessage(), vars);
-                if(response == CommandErrors.OK){
-                    event.getMessage().addReaction("U+1F44D").queue();//Thumbs up
-                }else{
-                    event.getMessage().addReaction("U+1F44E").queue();//Thumbs down
-                    //event.getMessage().addReaction("U+2139").queue();//information
+                AbstractCommand.CmdResponse response = abstractCommand.runCommand(event.getMessage(), vars);
+                if(response != null){
+                    System.out.println("have respons");
+                    if(response.haveMsg()) {
+                        String responseMsg = response.getMsg();
+                        //if starts with -p its a private message
+                        if (responseMsg.length() >=2 && responseMsg.substring(0, 2).equalsIgnoreCase("-p")){
+                            event.getAuthor().openPrivateChannel().queue((channel) ->
+                                    channel.sendMessage(responseMsg.substring(2)).queue()
+                            );
+                        }else {
+                            TCTasks.sendMessage(event.getTextChannel(), responseMsg);
+                        }
+                    }
+                    if (response.haveReaction()){
+                        for(Emoji emoji: response.getReactions()){
+                            event.getMessage().addReaction(emoji.getUnicode()).queue();
+                        }
+                    }
+                    if(response.shouldDeleteCmd()){
+                        System.out.println("deleting msg");
+                        event.getMessage().delete().queue();
+                    }
                 }
+
                 return;
             }
         }

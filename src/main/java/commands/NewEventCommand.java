@@ -16,8 +16,17 @@ public class NewEventCommand extends AbstractCommand {
 
         //Setting command credentials
         credentials.setCredentials(Credentials.CredentialsKeys.ROLES , Roles.EVENT_MANAGER.getName());
-        credentials.setCredentials(Credentials.CredentialsKeys.LISTEN_CATEGORIES, GlobalConstants.EVENT_CATEGORY);
-        credentials.setCredentials(Credentials.CredentialsKeys.IGNORE_CHANNELS, "f");
+    }
+
+    @Override
+    public CmdResponse getResponse(CommandErrors response) {
+        switch (response){
+            case OK:
+                return new CmdResponse(true);
+            case INVALID_RANK:
+                return new CmdResponse(true, "-pYou need \"Event Manager\" rank to use this");
+        }
+        return null;
     }
 
     protected void execute(Message eventMessage, String vars) {
