@@ -48,7 +48,6 @@ public class MsgCommandManager extends ListenerAdapter {
             if (abstractCommand.getCommand().equalsIgnoreCase(callerCmd)){
                 AbstractCommand.CmdResponse response = abstractCommand.runCommand(event.getMessage(), vars);
                 if(response != null){
-                    System.out.println("have respons");
                     if(response.haveMsg()) {
                         String responseMsg = response.getMsg();
                         //if starts with -p its a private message

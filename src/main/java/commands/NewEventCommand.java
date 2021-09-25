@@ -46,4 +46,25 @@ public class NewEventCommand extends AbstractCommand {
         return credentials;
     }
 
+    public enum NewEventVars{
+        TITLE("title"),
+        START("start"),
+        END("end"),
+        DURATION("duration"),
+        INFO("info"),
+        IMG("img"),
+        FOOTER("footer"),
+        ATTENDANCE("attendance"),
+        CUSTOM_REACT("reacts");
+
+        String varName;
+        NewEventVars(String varName){
+            this.varName = varName;
+        }
+        public String getVarName(){
+            return varName;
+        }
+
+    }
+
 }
