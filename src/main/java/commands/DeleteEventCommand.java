@@ -1,9 +1,10 @@
 package commands;
 
+import commands.base.Credentials;
 import data.GlobalConstants;
 import data.Variables;
-import interfaces.Command;
-import interfaces.CommandErrors;
+import commands.base.AbstractCommand;
+import commands.base.CommandErrors;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -12,7 +13,7 @@ import tasks.Helper;
 
 import java.util.HashMap;
 
-public class DeleteEventCommand extends Command {
+public class DeleteEventCommand extends AbstractCommand {
     private static String command = "delete";
     private static String [] defaultRoles= GlobalConstants.EVENT_MANAGER_ROLE;
     private static String[] defaultListenCategories = GlobalConstants.EVENT_CATEGORY;
@@ -30,6 +31,13 @@ public class DeleteEventCommand extends Command {
     }
 
     @Override
+    public Credentials getCredentials() {
+        //TODO
+        return null;
+    }
+
+    /**
+    @Override
     protected CommandErrors credentialCheck(Member member, TextChannel channel) {
         Variables variables = Variables.getVariables(member.getGuild());
 
@@ -37,7 +45,7 @@ public class DeleteEventCommand extends Command {
 
         String[] roles = value.get(CommandKeys.ROLES) == null ? defaultRoles: value.get(CommandKeys.ROLES);
         String[] listenCategories  = value.get(CommandKeys.LISTEN_CATEGORIES) == null ? defaultListenCategories: value.get(CommandKeys.LISTEN_CATEGORIES);
-        String[] lockedChannels = value.get(CommandKeys.LOCKED_CHANNELS) == null ? defaultLockedChannels: value.get(CommandKeys.LOCKED_CHANNELS);
+        String[] lockedChannels = value.get(CommandKeys.IGNORE_CHANNELS) == null ? defaultLockedChannels: value.get(CommandKeys.IGNORE_CHANNELS);
 
         if(!Helper.hasRank(member, roles)){
             return CommandErrors.INVALID_RANK;
@@ -48,4 +56,5 @@ public class DeleteEventCommand extends Command {
         return CommandErrors.OK;
 
     }
+    **/
 }
