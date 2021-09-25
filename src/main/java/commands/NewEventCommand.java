@@ -17,6 +17,7 @@ public class NewEventCommand extends AbstractCommand {
         //Setting command credentials
         credentials.setCredentials(Credentials.CredentialsKeys.ROLES , Roles.EVENT_MANAGER.getName());
         credentials.setCredentials(Credentials.CredentialsKeys.LISTEN_CATEGORIES, GlobalConstants.EVENT_CATEGORY);
+        credentials.setCredentials(Credentials.CredentialsKeys.IGNORE_CHANNELS, "f");
     }
 
     protected void execute(Message eventMessage, String vars) {

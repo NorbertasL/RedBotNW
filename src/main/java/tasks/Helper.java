@@ -20,9 +20,8 @@ public class Helper {
     }
 
     public static boolean hasCategory(TextChannel channel, String[] listenCategories) {
-        if(listenCategories == null){
-            return true;//will always be in right category :D
-        }
+        if(listenCategories == null) return false;
+
         if(channel.getParent() == null){
             return false;//No parent = no category so false
         }
@@ -34,6 +33,7 @@ public class Helper {
         return false;
     }
     public static boolean channelInList(TextChannel channel, String[] channels){
+        if(channels == null) return false;
         for(String c : channels){
             if(channel.getName().equalsIgnoreCase(c)){
                 return true;
