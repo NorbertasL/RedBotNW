@@ -2,6 +2,7 @@ package tasks;
 
 import commands.NewEventCommand;
 import commands.base.AbstractCommand;
+import data.Emoji;
 import data.Event;
 import data.GlobalConstants;
 import data.Variables;
@@ -122,8 +123,13 @@ public class EventTasks {
         String [] cmd = text.split("\n");
         System.out.println(text);
         System.out.println(cmd.length);
+        Variables variables = Variables.getVariables(channel.getGuild());
+
+        String id;
         for(String s : cmd){
-            channel.sendMessage("--------------\n"+s).queue();
+            id = s.length() < 10 ? s : s.substring(0, 10);
+            variables.addReact(id, Emoji.THUMBS_UP);
+            channel.sendMessage(s).queue();
         }
     }
 }

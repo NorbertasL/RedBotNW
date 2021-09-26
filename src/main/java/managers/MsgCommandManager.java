@@ -2,6 +2,7 @@ package managers;
 
 import commands.DeleteEventCommand;
 import commands.NewEventCommand;
+import commands.StartPollCommand;
 import data.Emoji;
 import data.Event;
 import data.GlobalConstants;
@@ -27,12 +28,22 @@ public class MsgCommandManager extends ListenerAdapter {
         //Add in all commands
         abstractCommands.add(new NewEventCommand());
         abstractCommands.add(new DeleteEventCommand());
+        abstractCommands.add(new StartPollCommand());
 
     }
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        //Ignoring bots won input
+
         if (event.getAuthor().isBot()) {
+            Variables variables = Variables.getVariables(event.getGuild());
+            String id = event.getMessage().getContentRaw().length() < 10 ? event.getMessage().getContentRaw() : event.getMessage().getContentRaw().substring(0, 10);
+            Emoji[] emoji = variables.getReactionsFor(id);
+            if(emoji != null){
+                for(Emoji emo : emoji){
+                    event.getMessage().addReaction(emo.getUnicode()).queue();
+                }
+            }
+
             return;
         }
         String msg = event.getMessage().getContentRaw();
