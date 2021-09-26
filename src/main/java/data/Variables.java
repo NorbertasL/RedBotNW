@@ -6,11 +6,6 @@ import net.dv8tion.jda.api.entities.Member;
 import java.util.*;
 
 public class Variables {
-
-
-    //HashMap<String, HashMap<CommandKeys, String[]>> commandVars = new HashMap<>();
-
-
     public static final String MASTER_RANK = "Merlin";
     private static List<Variables> variables = new ArrayList<>();
     private String guildID;
@@ -29,7 +24,6 @@ public class Variables {
     public static Variables getVariables(Guild guild){
         for(Variables v: variables){
             if(v.getGuildID().equalsIgnoreCase(guild.getId())){
-                System.out.println("Pre-Existing Variables found for:"+v.guildID);
                 return v;
             }
         }
@@ -84,33 +78,14 @@ public class Variables {
     private HashMap<String, String[]> reactions = new HashMap<>();
     public void addReact(String id, String... emoji){
         id = id.trim();
-        System.out.println("NEW REACTION:"+id);
+        System.out.println("NEW REACTION TASK:"+id);
         reactions.put(id, emoji);
     }
     public String[] getReactionsFor(String id){
         id = id.trim();
-        System.out.println("Getting reqctions for mes id:"+id);
         String [] emojis = reactions.get(id);
         reactions.remove(id);
         //System.out.println("emojis are:"+emojis.toString());
         return emojis;
     }
-
-    /**
-    public HashMap<CommandKeys, String[]> getCommandVarsFor(String command) {
-        if(commandVars.get(command.toLowerCase()) == null){
-            System.out.println("Generating null vars for command:"+ command);
-            commandVars.put(command.toLowerCase(), createDefaultVar());
-        }
-        return commandVars.get(command.toLowerCase());
-    }
-
-    private HashMap<CommandKeys, String[]> createDefaultVar() {
-        HashMap<CommandKeys, String[]> values = new HashMap<>();
-        for(CommandKeys key : CommandKeys.values()){
-            values.put(key, null);
-        }
-        return values;
-    }
-     **/
 }

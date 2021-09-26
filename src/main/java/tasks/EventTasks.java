@@ -1,21 +1,15 @@
 package tasks;
 
 import commands.NewEventCommand;
-import commands.base.AbstractCommand;
 import data.Emoji;
 import data.Event;
 import data.GlobalConstants;
 import data.Variables;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.requests.restaction.ChannelAction;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import net.dv8tion.jda.api.requests.restaction.order.OrderAction;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class EventTasks {
@@ -36,10 +30,7 @@ public class EventTasks {
     }
 
     public static void closeEvent(Member caller, TextChannel channel, String commandInfo) {
-
-
-
-        //TODO handle event archiving
+        //TODO handle event closing and archiving
     }
     public static void deleteEvent(Message eventMessage, String commandInfo) {
         String callerName = eventMessage.getMember().getEffectiveName();
@@ -54,7 +45,7 @@ public class EventTasks {
         String [] cmd = storedEvent.getCmds();
         EmbedBuilder eb = new EmbedBuilder();
         if(cmd == null || cmd.length < 1 || cmd[0].isBlank()){
-            TCTasks.sendMessage(channel, "Well you fucked something up.Type !eventhelp in this channel");
+            TCTasks.sendMessage(channel, "Well you fucked something up!");
             return;
         }
 
@@ -85,13 +76,13 @@ public class EventTasks {
         //Event start
         eb.addField("Event Starts", commandValues.getOrDefault(NewEventCommand.NewEventVars.START.getVarName(), "NOW!"), true);
 
-        //Event end or duration
+        //Event end or duration //TODO add time formatting with snowflake and unixtime
         if(commandValues.containsKey(NewEventCommand.NewEventVars.END.getVarName())){
             eb.addField("Event Ends", commandValues.get(NewEventCommand.NewEventVars.END.getVarName()), true);
         }else if(commandValues.containsKey(NewEventCommand.NewEventVars.DURATION)){
             eb.addField("Event Ends", commandValues.get(NewEventCommand.NewEventVars.DURATION.getVarName()), true);
         }else {
-            eb.addBlankField(true);
+            eb.addBlankField(true);//Blank field to fill in gap
         }
 
         //Event host
@@ -113,20 +104,16 @@ public class EventTasks {
 
         //Attendance reactions
         String [] attEmoji = new String[0];
-        if (commandValues.containsKey(NewEventCommand.NewEventVars.NO_ATTENDANCE.getVarName())){
-            //TODO disable attendance check
-        }else {
+        if (!commandValues.containsKey(NewEventCommand.NewEventVars.NO_ATTENDANCE.getVarName())){
             attEmoji = new String[]{Emoji.THUMBS_UP.getUnicode(), Emoji.THUMBS_DOWN.getUnicode()};
         }
 
         //Custom reactions
         String [] customEmoji = new String[0];;
         if (commandValues.containsKey(NewEventCommand.NewEventVars.CUSTOM_REACTIONS.getVarName())){
-            //TODO add the custom reaction
             String emojiString = commandValues.get(NewEventCommand.NewEventVars.CUSTOM_REACTIONS.getVarName());
             if(emojiString != null){
-                customEmoji = emojiString.split(" ");
-                System.out.println("Numbe rof custom reactions :"+ customEmoji.length);
+                customEmoji = emojiString.split(" ");//Reaction are separated by spaces
             }
 
         }
@@ -151,24 +138,3 @@ public class EventTasks {
         }
     }
 }
-/**
- EmbedBuilder eb = new EmbedBuilder();
- eb.setTitle("**GUILD NAME POLL**");
- eb.setColor(Color.RED);
- eb.addField("Event Closes","<t:1632664800:F>", true);
- eb.addField("Event Host","Red_Spark", true);
- eb.addBlankField(false);
- eb.addField("**Event Info**","**Look here you filthy casuals this is how it will work:** " +
- "\n1: You can thumb up all the names you like." +
- "\n2: You can thumb down all the names you dislike." +
- "\n3: :thumbup: = +1 and :thumbdown: = -1 to the name. " +
- "\n4: Top 5 guild names with the highest score go to the finals." , false);
- eb.addBlankField(false);
- eb.addField("NOTE", "No typing in this channel. Also if I missed a name, TOO FUCKING BAD <_<.", false);
-
- eb.setFooter("Don't make me hurt you 0_o");
- eb.setImage("http://memecrunch.com/meme/C3U9V/dont-fuck-this-up-this-time/image.jpg");
-
- MessageEmbed messageEmbed = eb.build();
- channel.sendMessageEmbeds(messageEmbed).queue();
- **/

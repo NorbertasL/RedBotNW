@@ -35,20 +35,19 @@ public class MsgCommandManager extends ListenerAdapter {
     }
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        //Ignoring private messages
         try{
             if(event.getPrivateChannel() != null){
                 return;
             }
-        }catch (IllegalStateException e){
-            //supressing
-        }
+        } catch (IllegalStateException e){}//Suppressing so we don't spam the log
 
-
-
+        //If bot is posting we need to check if reaction need to be done
         if (event.getAuthor().isBot()) {
             Variables variables = Variables.getVariables(event.getGuild());
             MessageEmbed embed = event.getMessage().getEmbeds().size() == 0? null:event.getMessage().getEmbeds().get(0);
             String id = "";
+            //Embeds have ids in footers
             if(embed != null){
                 if(!embed.getFooter().getText().isBlank()) {
                     id = embed.getFooter().getText();
@@ -60,6 +59,7 @@ public class MsgCommandManager extends ListenerAdapter {
                     event.getMessage().editMessageEmbeds(eb.build()).queue();
                 }
             }else {
+                //Normal post have ids as the msg itself up to 10 chars
                 id = event.getMessage().getContentRaw().length() < 10 ? event.getMessage().getContentRaw() : event.getMessage().getContentRaw().substring(0, 10);
             }
 
@@ -76,18 +76,28 @@ public class MsgCommandManager extends ListenerAdapter {
             return;
         }
         String msg = event.getMessage().getContentRaw();
+
+        //Ignoring non command messages
         if (msg.charAt(0) != '!') {
-            //System.out.println("Not a command");
             return;
         }
-        msg = msg.substring(1);
+
+        msg = msg.substring(1);//removing the !
         //Write all command as lowercase, no spaces allowed
         String callerCmd = msg.split(" ")[0].toLowerCase();
         String vars = msg.substring(callerCmd.length());
+
+        //Looping tough possible commands
         for (AbstractCommand abstractCommand : abstractCommands){
             if (abstractCommand.getCommand().equalsIgnoreCase(callerCmd)){
+
+                //Executing command
                 AbstractCommand.CmdResponse response = abstractCommand.runCommand(event.getMessage(), vars);
+
+                //Checking for responses
                 if(response != null){
+
+                    //Checking if response contains a message
                     if(response.haveMsg()) {
                         String responseMsg = response.getMsg();
                         //if starts with -p its a private message
@@ -99,13 +109,16 @@ public class MsgCommandManager extends ListenerAdapter {
                             TCTasks.sendMessage(event.getTextChannel(), responseMsg);
                         }
                     }
+
+                    //Checking if response contains a reaction
                     if (response.haveReaction()){
                         for(Emoji emoji: response.getReactions()){
                             event.getMessage().addReaction(emoji.getUnicode()).queue();
                         }
                     }
+
+                    //Checking is called cmd should be deleted
                     if(response.shouldDeleteCmd()){
-                        System.out.println("deleting msg");
                         event.getMessage().delete().queue();
                     }
                 }
@@ -113,16 +126,14 @@ public class MsgCommandManager extends ListenerAdapter {
                 return;
             }
         }
-        if(callerCmd.equals("poll")){
-            EventTasks.generatePoll(msg.substring(4), event.getTextChannel());
-            return;
-        }
+
         TCTasks.sendMessage(event.getTextChannel(), "Could not find command:"+callerCmd);
 
     }
 
     @Override
     public void onTextChannelCreate(TextChannelCreateEvent event){
+
         //Only care about channels under Event category
         if(Helper.hasCategory(event.getChannel(), GlobalConstants.EVENT_CATEGORY)){
             Variables variables = Variables.getVariables(event.getGuild());

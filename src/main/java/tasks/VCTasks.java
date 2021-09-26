@@ -16,8 +16,6 @@ public class VCTasks {
         VoiceChannel vc = event.getMember().getVoiceState().getChannel();
         Variables variables = Variables.getVariables(event.getGuild());
         //private channels
-        System.out.println(vc.getParent().getName());
-        System.out.println(variables.getPrivateVcCategoryName());
         if(vc.getParent().getName().equalsIgnoreCase(variables.getPrivateVcCategoryName())
                 && vc.getName().equalsIgnoreCase(variables.getPrivateChannelName())){
             System.out.println("Making new private voice");

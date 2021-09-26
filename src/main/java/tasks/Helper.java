@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.nio.channels.Channel;
 
 public class Helper {
     public static boolean hasRank(Member user, String...ranks){

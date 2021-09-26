@@ -1,7 +1,5 @@
 package commands.base;
 
-import data.Variables;
-
 import java.util.HashMap;
 
 public class Credentials {

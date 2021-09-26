@@ -22,12 +22,7 @@ public class VCManager extends ListenerAdapter {
     public void onGuildVoiceMove(GuildVoiceMoveEvent event){
         VCTasks.createVC(event);
         VCTasks.cleanVC(event);
-
-
     }
-
-
-
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent event){
@@ -52,10 +47,6 @@ public class VCManager extends ListenerAdapter {
         if(privateVoice != null) {
             privateVoice.getMembers().stream()
                     .forEach(x -> x.getGuild().moveVoiceMember(x, event.getChannel()).queue());
-        }else{
-            //dynamic voice create
-            //sortDynamicChannels(event.getGuild());
-
         }
     }
 

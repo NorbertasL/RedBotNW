@@ -1,7 +1,6 @@
 package commands;
 
 import commands.base.Credentials;
-import data.GlobalConstants;
 import data.Roles;
 import commands.base.AbstractCommand;
 import net.dv8tion.jda.api.entities.Message;
@@ -30,10 +29,7 @@ public class NewEventCommand extends AbstractCommand {
     }
 
     protected void execute(Message eventMessage, String vars) {
-        System.out.println("NewEvent execute called");
         EventTasks.makeNewEvent(eventMessage, vars);
-        //return CommandErrors.OK;
-
     }
 
     @Override

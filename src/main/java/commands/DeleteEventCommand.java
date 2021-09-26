@@ -35,7 +35,6 @@ public class DeleteEventCommand extends AbstractCommand {
 
     @Override
     protected void execute(Message eventMessage, String vars) {
-        System.out.println("DeleteEvent execute called");
         EventTasks.deleteEvent(eventMessage, vars);
     }
 
@@ -48,26 +47,4 @@ public class DeleteEventCommand extends AbstractCommand {
     public Credentials getCredentials() {
         return credentials;
     }
-
-    /**
-    @Override
-    protected CommandErrors credentialCheck(Member member, TextChannel channel) {
-        Variables variables = Variables.getVariables(member.getGuild());
-
-        HashMap<CommandKeys, String []> value = variables.getCommandVarsFor(getCommand());
-
-        String[] roles = value.get(CommandKeys.ROLES) == null ? defaultRoles: value.get(CommandKeys.ROLES);
-        String[] listenCategories  = value.get(CommandKeys.LISTEN_CATEGORIES) == null ? defaultListenCategories: value.get(CommandKeys.LISTEN_CATEGORIES);
-        String[] lockedChannels = value.get(CommandKeys.IGNORE_CHANNELS) == null ? defaultLockedChannels: value.get(CommandKeys.IGNORE_CHANNELS);
-
-        if(!Helper.hasRank(member, roles)){
-            return CommandErrors.INVALID_RANK;
-        }
-        if(!Helper.hasCategory(channel, listenCategories) || Helper.channelInList(channel, lockedChannels)){
-            return CommandErrors.INVALID_CHANNEL;
-        }
-        return CommandErrors.OK;
-
-    }
-    **/
 }
