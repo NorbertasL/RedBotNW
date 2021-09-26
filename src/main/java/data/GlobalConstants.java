@@ -5,7 +5,7 @@ package data;
 public class GlobalConstants {
     public static final String[] EVENT_CATEGORY = new String[]{"\uD83D\uDCC6 Events"};
     public static final String[] EVENT_MANAGER_ROLE = new String[]{"Event Manager"};
-    public static final String[] EVENT_LOCKED_CHANNELS = new String[]{"ℹ️nfo"};
+    public static final String[] EVENT_LOCKED_CHANNELS = new String[]{"info"};
     public static final String[] ARCHIVE_CATEGORY = new String[]{"Archive"};
     public static final String[] ARCHIVE_EVENT_CHANNEL = new String[]{"event-archive"};
     public static final String PRIVATE_VC_CATEGORY = "\uD83C\uDFA4 Custom VC";

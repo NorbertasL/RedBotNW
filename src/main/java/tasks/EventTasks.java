@@ -25,9 +25,6 @@ public class EventTasks {
         String id = variables.getUniqueEventId();
         variables.addEvent(id, eventMessage.getMember(), cmds);
 
-        int pos = eventMessage.getGuild().getChannels().stream()
-                .filter(x->x.getName().equalsIgnoreCase("event-info")).findFirst().get().getPositionRaw();
-
         guild.createTextChannel(id, guild.getCategories()
                 .stream()
                 .filter(x -> x.getName().equalsIgnoreCase(GlobalConstants.EVENT_CATEGORY[0]))

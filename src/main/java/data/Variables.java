@@ -92,7 +92,7 @@ public class Variables {
         System.out.println("Getting reqctions for mes id:"+id);
         Emoji [] emojis = reactions.get(id);
         reactions.remove(id);
-        System.out.println("emojis are:"+emojis.toString());
+        //System.out.println("emojis are:"+emojis.toString());
         return emojis;
     }
 

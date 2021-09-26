@@ -33,6 +33,13 @@ public class MsgCommandManager extends ListenerAdapter {
     }
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        try{
+            if(event.getPrivateChannel() != null){
+                return;
+            }
+        }catch (IllegalStateException e){
+            //supressing
+        }
 
         if (event.getAuthor().isBot()) {
             Variables variables = Variables.getVariables(event.getGuild());
@@ -48,7 +55,7 @@ public class MsgCommandManager extends ListenerAdapter {
         }
         String msg = event.getMessage().getContentRaw();
         if (msg.charAt(0) != '!') {
-            System.out.println("Not a command");
+            //System.out.println("Not a command");
             return;
         }
         msg = msg.substring(1);
