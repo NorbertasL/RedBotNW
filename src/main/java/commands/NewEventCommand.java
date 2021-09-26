@@ -22,7 +22,7 @@ public class NewEventCommand extends AbstractCommand {
     public CmdResponse getResponse(CommandErrors response) {
         switch (response){
             case OK:
-                return new CmdResponse(true);
+                return new CmdResponse(false);
             case INVALID_RANK:
                 return new CmdResponse(true, "-pYou need \"Event Manager\" rank to use this");
         }
