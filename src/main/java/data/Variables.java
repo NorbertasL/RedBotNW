@@ -81,16 +81,16 @@ public class Variables {
         return id;
     }
 
-    private HashMap<String, Emoji[]> reactions = new HashMap<>();
-    public void addReact(String id, Emoji... emoji){
+    private HashMap<String, String[]> reactions = new HashMap<>();
+    public void addReact(String id, String... emoji){
         id = id.trim();
         System.out.println("NEW REACTION:"+id);
         reactions.put(id, emoji);
     }
-    public Emoji[] getReactionsFor(String id){
+    public String[] getReactionsFor(String id){
         id = id.trim();
         System.out.println("Getting reqctions for mes id:"+id);
-        Emoji [] emojis = reactions.get(id);
+        String [] emojis = reactions.get(id);
         reactions.remove(id);
         //System.out.println("emojis are:"+emojis.toString());
         return emojis;

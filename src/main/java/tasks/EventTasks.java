@@ -13,8 +13,10 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import net.dv8tion.jda.api.requests.restaction.order.OrderAction;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class EventTasks {
 
@@ -110,22 +112,28 @@ public class EventTasks {
         eb.setFooter(id);
 
         //Attendance reactions
-        Emoji [] attEmoji;
+        String [] attEmoji = new String[0];
         if (commandValues.containsKey(NewEventCommand.NewEventVars.NO_ATTENDANCE.getVarName())){
             //TODO disable attendance check
         }else {
-            attEmoji = new Emoji[]{Emoji.THUMBS_UP, Emoji.THUMBS_DOWN};
-
-            Variables.getVariables(channel.getGuild()).addReact(id, attEmoji);
+            attEmoji = new String[]{Emoji.THUMBS_UP.getUnicode(), Emoji.THUMBS_DOWN.getUnicode()};
         }
 
         //Custom reactions
-        Emoji [] customEmoji;
-        if (commandValues.containsKey(NewEventCommand.NewEventVars.CUSTOM_REACT.getVarName())){
+        String [] customEmoji = new String[0];;
+        if (commandValues.containsKey(NewEventCommand.NewEventVars.CUSTOM_REACTIONS.getVarName())){
             //TODO add the custom reaction
-            //customEmoji = commandValues.get(NewEventCommand.NewEventVars.CUSTOM_REACT);
+            String emojiString = commandValues.get(NewEventCommand.NewEventVars.CUSTOM_REACTIONS.getVarName());
+            if(emojiString != null){
+                customEmoji = emojiString.split(" ");
+                System.out.println("Numbe rof custom reactions :"+ customEmoji.length);
+            }
+
         }
 
+        //Combining all reacts into one
+        Variables.getVariables(channel.getGuild()).addReact(id,
+                Stream.concat(Arrays.stream(attEmoji), Arrays.stream(customEmoji)).toArray(String[]::new));
         channel.sendMessageEmbeds(eb.build()).queue();
 
     }
@@ -138,7 +146,7 @@ public class EventTasks {
         String id;
         for(String s : cmd){
             id = s.length() < 10 ? s : s.substring(0, 10);
-            variables.addReact(id, Emoji.THUMBS_UP);
+            variables.addReact(id, Emoji.THUMBS_UP.getUnicode());
             channel.sendMessage(s).queue();
         }
     }

@@ -63,10 +63,13 @@ public class MsgCommandManager extends ListenerAdapter {
                 id = event.getMessage().getContentRaw().length() < 10 ? event.getMessage().getContentRaw() : event.getMessage().getContentRaw().substring(0, 10);
             }
 
-            Emoji[] emoji = variables.getReactionsFor(id);
+            String[] emoji = variables.getReactionsFor(id);
             if(emoji != null){
-                for(Emoji emo : emoji){
-                    event.getMessage().addReaction(emo.getUnicode()).queue();
+                for(String unicode : emoji){
+                    if(unicode != null && !unicode.isEmpty()){
+                        event.getMessage().addReaction(unicode).queue();
+                    }
+
                 }
             }
 

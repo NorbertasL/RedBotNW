@@ -55,7 +55,7 @@ public class NewEventCommand extends AbstractCommand {
         IMG("img"),
         FOOTER("footer"),
         NO_ATTENDANCE("no-attendance"),
-        CUSTOM_REACT("reacts");
+        CUSTOM_REACTIONS("reactions");
 
         String varName;
         NewEventVars(String varName){
