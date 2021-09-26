@@ -8,6 +8,7 @@ import data.Event;
 import data.GlobalConstants;
 import data.Variables;
 import commands.base.AbstractCommand;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -51,6 +52,12 @@ public class MsgCommandManager extends ListenerAdapter {
             if(embed != null){
                 if(!embed.getFooter().getText().isBlank()) {
                     id = embed.getFooter().getText();
+
+                    //TODO translate this for my own use.
+                    EmbedBuilder eb = new EmbedBuilder();
+                    eb.copyFrom(embed);
+                    eb.setFooter(embed.getFooter().getText()+" Edited");
+                    event.getMessage().editMessageEmbeds(eb.build()).queue();
                 }
             }else {
                 id = event.getMessage().getContentRaw().length() < 10 ? event.getMessage().getContentRaw() : event.getMessage().getContentRaw().substring(0, 10);
