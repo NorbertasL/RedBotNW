@@ -65,7 +65,13 @@ public class EventTasks {
         HashMap<String, String> commandValues = new HashMap<>();
         for (int i = 1; i < cmd.length; i++){
             temp = cmd[i].split(":", 2);
-            commandValues.put(temp[0].toLowerCase(), temp[1]);
+            if(temp.length < 2){
+                System.out.println("null value cmd for :"+temp[0]);
+                commandValues.put(temp[0].toLowerCase(), "null");
+            }else {
+                commandValues.put(temp[0].toLowerCase(), temp[1]);
+            }
+
         }
 
         //Going tough all the keys
@@ -80,8 +86,11 @@ public class EventTasks {
         //Event end or duration
         if(commandValues.containsKey(NewEventCommand.NewEventVars.END.getVarName())){
             eb.addField("Event Ends", commandValues.get(NewEventCommand.NewEventVars.END.getVarName()), true);
-        }else
-            eb.addField("Event Ends", commandValues.getOrDefault(NewEventCommand.NewEventVars.DURATION.getVarName(), "???"), true);
+        }else if(commandValues.containsKey(NewEventCommand.NewEventVars.DURATION)){
+            eb.addField("Event Ends", commandValues.get(NewEventCommand.NewEventVars.DURATION.getVarName()), true);
+        }else {
+            eb.addBlankField(true);
+        }
 
         //Event host
         eb.addField("Hosted By", storedEvent.getAuthor().getEffectiveName(), true);
@@ -96,21 +105,25 @@ public class EventTasks {
             eb.setImage(commandValues.get(NewEventCommand.NewEventVars.IMG.getVarName()));
         }
 
-        //Event footer
-        if (commandValues.containsKey(NewEventCommand.NewEventVars.FOOTER.getVarName())){
-            eb.setFooter(commandValues.get(NewEventCommand.NewEventVars.FOOTER.getVarName()));
-        }
+        //Using footers to store ids for the event
+        String id = "ID:"+(long)Math.floor(Math.random()*(10000000-100000+1)+10000000);
+        eb.setFooter(id);
 
         //Attendance reactions
-        if (commandValues.containsKey(NewEventCommand.NewEventVars.ATTENDANCE)){
+        Emoji [] attEmoji;
+        if (commandValues.containsKey(NewEventCommand.NewEventVars.NO_ATTENDANCE.getVarName())){
             //TODO disable attendance check
         }else {
-            //TODO enable attendance check by default.
+            attEmoji = new Emoji[]{Emoji.THUMBS_UP, Emoji.THUMBS_DOWN};
+
+            Variables.getVariables(channel.getGuild()).addReact(id, attEmoji);
         }
 
         //Custom reactions
-        if (commandValues.containsKey(NewEventCommand.NewEventVars.CUSTOM_REACT)){
+        Emoji [] customEmoji;
+        if (commandValues.containsKey(NewEventCommand.NewEventVars.CUSTOM_REACT.getVarName())){
             //TODO add the custom reaction
+            //customEmoji = commandValues.get(NewEventCommand.NewEventVars.CUSTOM_REACT);
         }
 
         channel.sendMessageEmbeds(eb.build()).queue();

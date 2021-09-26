@@ -8,6 +8,7 @@ import data.Event;
 import data.GlobalConstants;
 import data.Variables;
 import commands.base.AbstractCommand;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -41,9 +42,20 @@ public class MsgCommandManager extends ListenerAdapter {
             //supressing
         }
 
+
+
         if (event.getAuthor().isBot()) {
             Variables variables = Variables.getVariables(event.getGuild());
-            String id = event.getMessage().getContentRaw().length() < 10 ? event.getMessage().getContentRaw() : event.getMessage().getContentRaw().substring(0, 10);
+            MessageEmbed embed = event.getMessage().getEmbeds().size() == 0? null:event.getMessage().getEmbeds().get(0);
+            String id = "";
+            if(embed != null){
+                if(!embed.getFooter().getText().isBlank()) {
+                    id = embed.getFooter().getText();
+                }
+            }else {
+                id = event.getMessage().getContentRaw().length() < 10 ? event.getMessage().getContentRaw() : event.getMessage().getContentRaw().substring(0, 10);
+            }
+
             Emoji[] emoji = variables.getReactionsFor(id);
             if(emoji != null){
                 for(Emoji emo : emoji){
